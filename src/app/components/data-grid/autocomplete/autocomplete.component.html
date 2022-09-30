@@ -1,0 +1,55 @@
+<div class="header">
+  <div class="title-box">
+    <h1 class="title">{{ data.fNumber }} - Registration</h1>
+    <div class="date-box">
+      <h2>{{ data.date | date: "dd/MM/yy" }} -</h2>
+      <h2>{{ data.date | date: "hh:mm" }}</h2>
+    </div>
+  </div>
+  <img
+    (click)="closeDialog()"
+    class="close-image"
+    src="../../../../assets/close.svg"
+  />
+</div>
+<div class="form-container">
+  <div class="form-group">
+    <label for="search-text">Registration</label>
+    <input
+      name="selectedOption"
+      type="text"
+      class="form-control"
+      id="search-text"
+      aria-describedby="search-text"
+      [(ngModel)]="searchText"
+      placeholder="Search"
+      style="text-transform: uppercase; font-weight: bold"
+      #newItem
+    />
+  </div>
+</div>
+<ul *ngIf="searchText.length > 1 && !hideOptions" class="list-group">
+  <div
+    *ngFor="let option of options | appFilter: searchText:filteredCount"
+  ></div>
+
+  <div class="list-container">
+    <div class="registration-title-list">
+      <p><b>REGISTRATION</b>({{ filteredCount.count }})</p>
+    </div>
+    <li
+      name="first"
+      size="10"
+      class="list-group-item"
+      *ngFor="let option of options | appFilter: searchText:filteredCount"
+      [innerHtml]="option | highlighter: searchText:'partial'"
+      (click)="print(option)"
+    >
+      {{ option }}
+    </li>
+  </div>
+</ul>
+<div class="footer" *ngIf="searchText.length < 2 || hideOptions">
+  <button type="button" (click)="cancelRegistration()">Cancel</button>
+  <button type="button" (click)="doAction()">Save</button>
+</div>
